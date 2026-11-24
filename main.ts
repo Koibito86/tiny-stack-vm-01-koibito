@@ -3,7 +3,7 @@ import{join}from'node:path';
 function run(p,inp){
 const D=new Int32Array(256),C=new Int32Array(64),M=new Int32Array(256);
 const out=new Uint8Array(65536),enc=new TextEncoder();
-let sp=0,csp=0,olen=0,ip=0,pc=0,steps=0;
+let sp=0,csp=0,olen=0,inPos=0,pc=0,steps=0;
 const done=e=>({out:out.slice(0,olen),exit:e});
 for(;;){
 if(steps===1000000)return done(10);
@@ -106,7 +106,7 @@ olen+=bytes.length;
 break;
 }
 case 0x51:if(olen+1>65536)return done(11);out[olen++]=D[--sp]&255;break;
-case 0x52:D[sp++]=ip<inp.length?inp[ip++]:-1;break;
+case 0x52:D[sp++]=inPos<inp.length?inp[inPos++]:-1;break;
 case 0x53:return done(D[--sp]&255);
 }
 }
